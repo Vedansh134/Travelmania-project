@@ -1,0 +1,222 @@
+.container_self {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+
+.link-container>.items>span>a {
+    text-decoration: none;
+    color : #007fb1;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.link-container>.items {
+    margin-top: -0.5%;
+}
+
+h6.footer-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+/* upper footer */
+/* .upper_footer {
+    width: 86%;
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin-left: 7%;
+    padding: 1.5rem;
+} */
+
+.upper_footer {
+    width: 86%;
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin-left: 7%;
+    /* padding: 1.5rem; */
+
+    display: flex;
+    flex-wrap: wrap;
+    /* Allow wrapping to multiple lines on smaller screens */
+    justify-content: space-around;
+    /* Distribute columns evenly */
+    padding: 20px;
+    background-color: #f8f8f8;
+    /* Light background */
+    font-family: sans-serif;
+    /* Choose a suitable font */
+}
+
+.link-container {
+    line-height: 1.7;
+    width: 25%;
+    /* Each column takes 25% width */
+    min-width: 250px;
+    /* Minimum width to prevent columns from becoming too narrow */
+    margin-bottom: 20px;
+    /* Spacing between columns */
+}
+
+@media (max-width: 768px) {
+
+    /* Responsive adjustment for smaller screens */
+    .link-container {
+        width: 50%;
+        /* Columns take 50% width on medium screens */
+    }
+}
+
+@media (max-width: 500px) {
+
+    /* Responsive adjustment for smaller screens */
+    .link-container {
+        width: 100%;
+        /* Each column takes full width on small screens */
+    }
+}
+
+
+.footer-title {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    /* Darker text color for titles */
+}
+
+.items {
+    list-style: none;
+    /* Remove default bullet points */
+    padding: 0;
+}
+
+.items span {
+    display: block;
+    /* Each link takes a full line */
+    margin-bottom: 5px;
+}
+
+.items a {
+    text-decoration: none;
+    /* Remove underlines from links */
+    color: #555;
+    /* Slightly lighter text color for links */
+    transition: color 0.3s ease;
+    /* Smooth color transition on hover */
+}
+
+.items a:hover {
+    color: #333;
+    /* Darker text color on hover */
+}
+
+
+
+
+/* middle footer */
+.middle_footer_heading>h3 {
+    font-size: 18px;
+    font-weight: 500;
+    /* margin-bottom: 20px; */
+}
+
+.middle_footer {
+    margin-top: 3%;
+    background-color: #c8f7ff;
+    height: 295px;
+}
+
+.middle_footer_item {
+    display: grid;
+}
+
+.middle_footer_item>a {
+    text-decoration: none !important;
+    color: #000 !important;
+}
+
+.middle_footer_main {
+    display: flex;
+    justify-content: space-evenly;
+    position: relative;
+    top: 2rem;
+}
+
+.middle_footer_social {
+    width: 12rem;
+}
+
+.social_link {
+    margin: 3%;
+}
+
+
+
+/* lower footer */
+.lower_footer {
+    background-color: #00cae6;
+    text-align: center;
+    /* Center text for better mobile view */
+}
+
+.lower_footer_info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* responsiveness */
+
+/* Responsiveness - More robust approach */
+@media (max-width: 768px) {
+    .lower_footer_info h4 {
+        font-size : 12px;
+    }
+    .lower_footer_info {
+        background-color: #9a9ad7;
+        height: 50px;
+    }
+}
+
+@media (max-width: 500px) {
+    .middle_footer {
+        height: 850px;
+    }
+    .middle_footer_main {
+        display: grid;
+        height: 800px;
+        flex-wrap: wrap;
+        background-color: #c4c4f4;
+        margin: 0px 15px 0px 15px;
+    }
+}
+
+/* @media ((min-width : 500px) and (max-width : 800px)){
+    .middle_footer {
+        height: 270px;
+    }
+    .middle_footer_main {
+        display: flex;
+        flex-wrap: wrap;
+        background-color: #c4c4f4;
+        margin: 0px 15px 50px 15px;
+    }
+    .middle_footer_heading {
+        font-size: 10px;
+    }
+    .middle_footer_heading  h3 {
+        font-size: 11px;
+    }
+} */
+
+@media (min-width : 800px){
+    .middle_footer_main {
+        margin: 0px 15px 50px 15px;
+    }
+}

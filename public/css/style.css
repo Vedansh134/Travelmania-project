@@ -1,0 +1,113 @@
+body{
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container{
+    flex: 1;
+}
+.navbar{
+    height: 5rem;
+    background-color: #e7fdff !important;
+}
+.fa-compass{
+    color: #fe424d;
+    font-size: 2rem;
+}
+.nav-link{
+    color: #222 !important;
+}
+/* footer styling */
+.f-info-links a{
+    text-decoration: none;
+    color: #222;
+}
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+.f-info-links, .f-info-socials, .f-info-brand{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.f-info-socials i{
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+.f-info{
+    text-align: center;
+    height: 8rem;
+    background-color: #ebebeb;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+}
+/* cards */
+.listing-card{
+    border: none !important;
+    margin-bottom : 2rem;
+}
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+.card-body{
+    padding: 0 !important;
+}
+.card-text p{
+    font-weight: 400 !important;
+}
+.listing-link{
+    text-decoration: none;
+}
+.listing-link{
+    text-decoration: none;
+}
+/* card-effect */
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
+/* border effect on form label-input */
+/* .form-control{
+    box-shadow: 0 0 0 .25rem rgba(57, 58, 60, 0.25) !important;
+} */
+
+/* new.ejs and edit.ejs btn styling */
+.add-btn, .edit-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+.add-btn:hover, .edit-btn:hover{
+    box-shadow: 0 0 0 .25rem rgba(35, 0, 16, 0.25) !important;
+}
+/* show.ejs */
+.show-img{
+    height: 30vh;
+}
+.btns{
+    display: flex;
+}
+.show-card{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* review */
+
+.review-border{
+    border: 1px solid rgb(169, 168, 168);
+}
+
+/* map */
+#map {
+    height: 400px;
+    width: 80vh;
+}

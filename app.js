@@ -6,7 +6,7 @@ if(process.env.NODE_ENV != "production"){
 
 const express = require("express");
 const app = express();
-const port = 8084;
+const port = 8081;
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const mongo_url = "mongodb://127.0.0.1:27017/travelmania";

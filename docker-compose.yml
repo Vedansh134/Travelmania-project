@@ -1,0 +1,39 @@
+services:
+  backend:
+    container_name: travelmania-backend
+    build:
+      context: .
+      dockerfile: dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongodb
+    networks:
+      - "travelmania"
+    restart: unless-stopped
+
+  mongodb:
+    container_name: mongodb
+    image: mongodb:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - "travelmania"
+    volumes:
+      - "travelmania:/data/db"
+    healthcheck:
+      test: ["CMD","mongosh","--eval","db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+networks:
+  travelmania:
+    driver: bridge
+
+volumes:
+  travelmania:
+    driver: local

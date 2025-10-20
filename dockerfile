@@ -1,7 +1,7 @@
 # stage 1 : Build the Node.js app
 
 # Node.js official image
-From node:18-alpine AS build-stage
+FROM node:18-alpine AS build-stage
 
 # Set the working directory
 WORKDIR /app

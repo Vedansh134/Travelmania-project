@@ -1,0 +1,24 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: backend-deployment
+  namespace: travelmania
+  labels:
+    app: travelmania
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: travelmania
+  template:
+    metadata:
+      name: backend
+      labels:
+        app: travelmania
+    spec:
+      containers:
+      - name: backend-container
+        image: ""
+        ports:
+        - containerPort: 8081
+

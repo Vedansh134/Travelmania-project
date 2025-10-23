@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mongodb-service
+  namespace: travelmania 
+  labels: 
+    app: travelmania 
+spec:
+  selctor:
+    app: travelmania 
+  ports:
+  - port: 27017
+    targetPort: 27017
+    protocol: TCP
+    type: ClusterIP

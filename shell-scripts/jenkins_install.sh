@@ -1,11 +1,21 @@
 #!/bin/bash
 
-# ============================ Jenkins installation ============================
+# ================================== Install Jenkins via shell script ==============================
+# Version: 1.0
+# Date: 30-10-2025
+# Author: Vedansh kumar
+# Description: With the help of this shell script we can automate the installation process of Jenkins
+# ==================================================================================================
 
+# for testing used set -eou pipefail
 set -eou pipefail
 
-# defined variables
-SUDO="sudo"
+# define variables
+SUDO='sudo'
+
+# Update ubuntu system
+echo "Update ubuntu system..."
+$SUDO apt update
 
 echo " 🚀 Installation of Jenkins started"
 echo ""
@@ -17,29 +27,53 @@ $SUDO apt -y upgrade
 echo ""
 
 # Install Java (open JDK) for Jenkins
-echo " 📦 Installing OpenJDK 21..."
-$SUDO apt install fontconfig openjdk-21-jre -y
-echo "Java Version:"
-java -version
-echo ""
-
-# Add Jenkins repository and key
-echo " 🔑 Adding Jenkins repository and key..."
-$SUDO wget -O /etc/apt/keyrings/jenkins-keyring.asc \
-  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-echo ""
-
-# Add Jenkins repository
-echo " 📦 Adding Jenkins repository..."
-echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
-  https://pkg.jenkins.io/debian-stable binary/ | $SUDO tee \
-  /etc/apt/sources.list.d/jenkins.list > /dev/null
-echo ""
+install_java(){
+  if command -v java >/dev/null 2>&1; then
+    echo "Java is already installed."
+    java -version
+    echo ""
+  else
+    echo "Java is not Installed.📦 Installing JDK..."
+    $SUDO apt install fontconfig openjdk-21-jre -y
+    echo "Java Version : $(java -version)"
+    echo ""
+  fi
+}
 
 # Install Jenkins
-echo " ✅ Installing Jenkins..."
-$SUDO apt install -y jenkins
-echo ""
+install_jenkins(){
+  # Add Jenkins repository and key
+  echo " 🔑 Adding Jenkins repository and key..."
+  $SUDO wget -O /etc/apt/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+  echo ""
+
+  # Add Jenkins repository
+  echo " 📦 Adding Jenkins repository..."
+  echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | $SUDO tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+  echo ""
+
+  # Update ubuntu
+  $SUDO apt update
+
+  # Install Jenkins
+  if command -v jenkins >/dev/null 2>&1; then
+    echo "Jenkins is already installed."
+    jenkins --version
+    echo ""
+  else
+    echo " ✅ Installing Jenkins..."
+    $SUDO apt install -y jenkins
+    echo ""
+  fi
+}
+
+# Call the install_java and install_jenkins function
+install_java
+install_jenkins
+
 
 # Start Jenkins service
 echo " 🔄 Starting Jenkins service..."

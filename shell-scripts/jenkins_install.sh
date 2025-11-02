@@ -2,7 +2,7 @@
 
 # ================================== Install Jenkins via shell script ==============================
 # Version: 1.0
-# Date: 30-10-2025
+# Date: 02-11-2025
 # Author: Vedansh kumar
 # Description: With the help of this shell script we can automate the installation process of Jenkins
 # ==================================================================================================

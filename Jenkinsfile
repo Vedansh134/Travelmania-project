@@ -85,7 +85,18 @@ pipeline {
         }
         stage("Docker : Push Image to Dockerhub"){
             steps {
+                echo "Pushing Docker image to Dockerhub"
+                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS' )])
+                {
+                    // Login to Dockerhub
+                    sh "echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin"
 
+                    // Tag and push the backend image
+                    sh "docker tag travelmania-backend:latest ${BACKEND_IMAGE}"
+                    sh "docker push ${BACKEND_IMAGE}"
+
+                    echo "Docker image pushed to Dockerhub successfully"
+                }
             }
         }
     }
@@ -93,10 +104,49 @@ pipeline {
     // Define post actions : success and failure
     post {
         sucess {
-
+            script {
+                emailext attachLog: true,
+                from: 'kumarvedansh134@gmail.com',
+                subject: "Jenkins Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' Succeeded",
+                body: """
+                <html>
+                    <body>
+                        <div style="background-color: #FFA07A; padding: 10px; margin-bottom: 10px;">
+                            <p style="color: black; font-weight: bold;">Project: ${env.JOB_NAME}</p>
+                        </div>
+                        <div style="background-color: #90EE90; padding: 10px; margin-bottom: 10px;">
+                            <p style="color: black; font-weight: bold;">Build Number: ${env.BUILD_NUMBER}</p>
+                        </div>
+                        <div style="background-color: #87CEEB; padding: 10px; margin-bottom: 10px;">
+                            <p style="color: black; font-weight: bold;">URL: ${env.BUILD_URL}</p>
+                        </div>
+                    </body>
+                    </html>
+                """,
+                to: 'kumarvedansh134@gmail.com',
+                mimeType: 'text/html'
+            }
         }
         failure {
-
+            script {
+                emailext attachLog: true,
+                from: 'vedansh.kumar134@gmail.com',
+                subject: "MongoShop Application build failed - '${currentBuild.result}'",
+                body: """
+                    <html>
+                    <body>
+                        <div style="background-color: #FFA07A; padding: 10px; margin-bottom: 10px;">
+                            <p style="color: black; font-weight: bold;">Project: ${env.JOB_NAME}</p>
+                        </div>
+                        <div style="background-color: #90EE90; padding: 10px; margin-bottom: 10px;">
+                            <p style="color: black; font-weight: bold;">Build Number: ${env.BUILD_NUMBER}</p>
+                        </div>
+                    </body>
+                    </html>
+                    """,
+                    to: 'vedansh.kumar134@gmail.com',
+                    mimeType: 'text/html'
+            }
         }
     }
 }

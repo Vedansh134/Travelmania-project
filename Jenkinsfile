@@ -22,7 +22,7 @@ pipeline {
     stages {
         stage("Validate parameters"){
             steps {
-                script(){
+                script{
                     if(params.BACKEND_DOCKER_TAG == ""){
                         error("BACKEND_DOCKER_TAG must be provided!")
                     }
@@ -79,6 +79,7 @@ pipeline {
         stage("Docker : Build Image"){
             steps {
                 echo "Building the Docker image"
+                // Ensure docker-compose.yml builds travelmania-backend as travelmania-backend
                 sh "docker-compose -f docker-compose.yml up -d --build"
                 echo "Docker image built successfully"
             }
@@ -86,7 +87,7 @@ pipeline {
         stage("Docker : Push Image to Dockerhub"){
             steps {
                 echo "Pushing Docker image to Dockerhub"
-                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS' )])
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS' )])
                 {
                     // Login to Dockerhub
                     sh "echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin"
@@ -99,11 +100,46 @@ pipeline {
                 }
             }
         }
+        stage("Automatic deployment to the cloud : AWS EKS"){
+            steps {
+                    echo "Deploying application to AWS EKS"
+
+                    // Use AWS credentials stored in Jenkins
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
+                        credentialsId: 'aws-cred'
+                    ]])
+                    {
+                        // Verify AWS credentials by getting the caller identity
+                        sh 'aws sts get-caller-identity'
+
+                        // Update kubeconfig to interact with the EKS cluster
+                        sh ('aws eks update-kubeconfig --name python-flaskapp --region ap-south-1 ')
+
+                        // Apply Kubernetes manifests to deploy the application
+                        sh 'kubectl apply -f kubernetes/namespace.yaml'
+                        sh 'kubectl apply -f kubernetes/backend-deployment.yaml'
+                        sh 'kubectl apply -f kubernetes/backend-service.yaml'
+                        sh 'kubectl apply -f kubernetes/mongodb-deployment.yaml'
+                        sh 'kubectl apply -f kubernetes/mongodb-service.yaml'
+                        sh 'kubectl apply -f kubernetes/mongodb-pv.yml'
+                        sh 'kubectl apply -f kubernetes/mongodb-pvc.yml'
+
+                        // Verify deployment by listing namespaces
+                        sh "kubectl get ns"
+
+                        // update the backend deployment with the new image
+                        sh "kubectl set image deployment/travelmania-backend travelmania-backend=${BACKEND_IMAGE} -n travelmania"
+                    }
+            }
+        }
     }
 
     // Define post actions : success and failure
     post {
-        sucess {
+        success {
             script {
                 emailext attachLog: true,
                 from: 'kumarvedansh134@gmail.com',

@@ -23,7 +23,7 @@ install_docker(){
         echo "Docker is already Installed"
     else
         echo "Docker is not installed, Start Installing docker..."
-        SUDO apt-get install docker.io -y
+        $SUDO apt-get install docker.io -y
     fi
 }
 

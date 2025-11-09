@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: backend-container
-        image: ""
+        image: "kvedansh786/travelmania-app:tagname"
         ports:
         - containerPort: 8081
 
